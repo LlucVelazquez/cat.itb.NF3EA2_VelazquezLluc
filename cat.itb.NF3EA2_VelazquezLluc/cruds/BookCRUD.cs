@@ -1,6 +1,7 @@
 ﻿using cat.itb.NF3EA2_VelazquezLluc.connections;
 using cat.itb.NF3EA2_VelazquezLluc.model;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,22 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 					document.AddRange(BsonDocument.Parse(json));
 					collection.InsertOne(document);
 				}
+		}
+		public static void ShowBooksFields()
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("books");
+			var sort = Builders<BsonDocument>.Sort.Descending("pageCount");
+			var cursor = collection.Find(new BsonDocument()).Sort(sort).ToCursor();
+			foreach (var document in cursor.ToEnumerable())
+			{
+				var title = document.GetElement("title");
+				var pageCount = document.GetElement("pageCount");
+				var categories = document.GetElement("categories");
+				Console.WriteLine($"{title.ToString()} {pageCount.ToString()} {categories.ToString()}");
+			}
+			Console.ReadKey();
+			Console.Clear();
 		}
 	}
 }

@@ -15,6 +15,9 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 		public static void Main(string[] args)
         {
 			//LoadAllCollections();
+			//Exercice2a();
+			//Exercice2b();
+			Exercice2c();
 		}
 		public static void LoadAllCollections()
         {
@@ -25,6 +28,18 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 			ProductCRUD.LoadProductsCollection();
 			RestaurantCRUD.LoadRestaurantCollection();
 			StudentCRUD.LoadStudentsCollection();
+		}
+		public static void Exercice2a()
+		{
+			CountryCRUD.ShowCountriesEurope();
+		}
+		public static void Exercice2b()
+		{
+			CountryCRUD.ShowOneCountry("Madagascar");
+		}
+		public static void Exercice2c()
+		{
+			BookCRUD.ShowBooksFields();
 		}
 
 	}

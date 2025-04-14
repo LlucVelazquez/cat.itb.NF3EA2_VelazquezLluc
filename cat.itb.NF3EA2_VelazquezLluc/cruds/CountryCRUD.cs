@@ -38,14 +38,32 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 		public static void ShowCountriesEurope()
 		{
 			var database = MongoLocalConnection.GetDatabase("itb");
-			var collection = database.GetCollection<BsonDocument>("people");
+			var collection = database.GetCollection<BsonDocument>("countries");
 			var filter = Builders<BsonDocument>.Filter.Eq("region", "Europe");
 			var cursor = collection.Find(filter).ToCursor();
+			int num = 0;
 			foreach (var document in cursor.ToEnumerable())
 			{
+				num++;
 				var population = document.GetElement("population");
-				Console.WriteLine(document.ToString());
+				var country = document.GetElement("name");
+				Console.WriteLine($"{num} {country.ToString()} {population.ToString()}");
 			}
+			Console.ReadKey();
+			Console.Clear();
+		}
+		public static void ShowOneCountry(string countryName)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("countries");
+			var filter = Builders<BsonDocument>.Filter.Eq("name", countryName);
+			var countryDocument = collection.Find(filter).FirstOrDefault();
+			var capital = countryDocument.GetElement("capital");
+			var population = countryDocument.GetElement("population");
+			var latlng = countryDocument.GetElement("latlng");
+			Console.WriteLine(capital.ToString());
+			Console.WriteLine(population.ToString());
+			Console.WriteLine(latlng.ToString());
 			Console.ReadKey();
 			Console.Clear();
 		}
