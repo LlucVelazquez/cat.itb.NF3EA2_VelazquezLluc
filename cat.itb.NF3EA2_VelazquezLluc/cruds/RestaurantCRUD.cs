@@ -1,6 +1,7 @@
 ﻿using cat.itb.NF3EA2_VelazquezLluc.connections;
 using cat.itb.NF3EA2_VelazquezLluc.model;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,34 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 					collection.InsertOne(document);
 				}
 			}
+		}
+		public static void ShowRestaurantsByZipCode(string zipCode)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("restaurants");
+			var filter = Builders<BsonDocument>.Filter.Eq("address.zipcode", zipCode);
+			var restaurants = collection.Find(filter).ToList();
+			foreach (var restaurant in restaurants)
+			{
+				var name = restaurant.GetElement("name");
+				var cuisine = restaurant.GetElement("cuisine");
+				Console.WriteLine($"{name.ToString()} {cuisine.ToString()}");
+			}
+			Console.ReadKey();
+			Console.Clear();
+		}
+		public static void RestaurantsChineseBronx(string borough, string cuisine)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("restaurants");
+			var filter = Builders<BsonDocument>.Filter.Eq("borough", borough) & Builders<BsonDocument>.Filter.Eq("cuisine", cuisine);
+			var restaurants = collection.Find(filter).ToCursor();
+			foreach (var restaurant in restaurants.ToEnumerable())
+			{
+				Console.WriteLine(restaurant.ToString());
+			}
+			Console.ReadKey();
+			Console.Clear();
 		}
 	}
 }

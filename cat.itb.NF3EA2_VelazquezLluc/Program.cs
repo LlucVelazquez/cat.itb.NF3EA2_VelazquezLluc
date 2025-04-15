@@ -17,7 +17,9 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 			//LoadAllCollections();
 			//Exercice2a();
 			//Exercice2b();
-			Exercice2c();
+			//Exercice2c();
+			//Exercice2d("11219");
+			Exercice2e();
 		}
 		public static void LoadAllCollections()
         {
@@ -40,6 +42,14 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 		public static void Exercice2c()
 		{
 			BookCRUD.ShowBooksFields();
+		}
+		public static void Exercice2d(string zipcode)
+		{
+			RestaurantCRUD.ShowRestaurantsByZipCode(zipcode);
+		}
+		public static void Exercice2e()
+		{
+			RestaurantCRUD.RestaurantsChineseBronx("Bronx","Chinese");
 		}
 
 	}

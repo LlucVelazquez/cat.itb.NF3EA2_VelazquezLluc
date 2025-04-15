@@ -51,5 +51,11 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 			Console.ReadKey();
 			Console.Clear();
 		}
+		public static void ShowBooksLess130()
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("books");
+			var filter = Builders<BsonDocument>.Filter.Lt("pageCount", 130);
+		}
 	}
 }
