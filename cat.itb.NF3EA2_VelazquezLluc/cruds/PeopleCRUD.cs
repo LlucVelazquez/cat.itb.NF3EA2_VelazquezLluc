@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using cat.itb.NF3EA2_VelazquezLluc.connections;
 using cat.itb.NF3EA2_VelazquezLluc.model;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 
 namespace cat.itb.NF3EA2_VelazquezLluc.cruds
@@ -34,5 +35,18 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 					collection.InsertOne(document);
 				}
 		}
-	}
+		public static void ShowFriendsByPeople(string name)
+        {
+            var database = MongoLocalConnection.GetDatabase("itb");
+            var collection = database.GetCollection<BsonDocument>("people");
+            var filter = Builders<BsonDocument>.Filter.Eq("name", name);
+            var personDocument = collection.Find(filter).FirstOrDefault();
+            Console.WriteLine($"Friends of {name}:");
+            var friends = personDocument.GetValue("friends").AsBsonArray;
+            foreach (var friend in friends)
+            {
+                Console.WriteLine(friend["name"]);
+            }
+        }
+    }
 }

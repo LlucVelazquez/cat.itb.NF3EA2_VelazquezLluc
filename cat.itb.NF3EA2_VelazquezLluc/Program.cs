@@ -19,9 +19,11 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 			//Exercice2b();
 			//Exercice2c();
 			//Exercice2d("11219");
-			Exercice2e();
-		}
-		public static void LoadAllCollections()
+			//Exercice2e();
+            //Exercice2f();
+            //Exercice2g();
+        }
+        public static void LoadAllCollections()
         {
 			BookCRUD.LoadBooksCollection();
 			CountryCRUD.LoadCountriesCollection();
@@ -51,6 +53,14 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 		{
 			RestaurantCRUD.RestaurantsChineseBronx("Bronx","Chinese");
 		}
+        public static void Exercice2f()
+        {
+			BookCRUD.ShowBooksLess130();
+        }
+        public static void Exercice2g()
+		{
+			PeopleCRUD.ShowFriendsByPeople("Caroline Webster");
+        }
 
-	}
+    }
 }
