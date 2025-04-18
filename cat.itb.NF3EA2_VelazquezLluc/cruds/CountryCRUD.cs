@@ -67,5 +67,40 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 			Console.ReadKey();
 			Console.Clear();
 		}
+		public static void AddCallingCodeToIceland(int newCode)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("countries");
+
+			var filter = Builders<BsonDocument>.Filter.Eq("name", "Iceland");
+
+			var countryBefore = collection.Find(filter).FirstOrDefault();
+			if (countryBefore == null)
+			{
+				Console.WriteLine("El país 'Iceland' no existeix a la col·lecció.");
+				return;
+			}
+
+			Console.WriteLine("Abans de l'actualització:");
+			Console.WriteLine(countryBefore.ToString());
+
+			var update = Builders<BsonDocument>.Update.AddToSet("callingCodes", newCode);
+			collection.UpdateOne(filter, update);
+
+			var countryAfter = collection.Find(filter).FirstOrDefault();
+			Console.WriteLine("Després de l'actualització:");
+			Console.WriteLine(countryAfter.ToString());
+			Console.ReadKey();
+			Console.Clear();
+		}
+		public static void DeleteCountriesByLanguage(string language)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("countries");
+			var filter = Builders<BsonDocument>.Filter.AnyEq("languages", language);
+			var deleteResult = collection.DeleteMany(filter);
+			Console.WriteLine($"Nombre de països eliminats on es parla '{language}': {deleteResult.DeletedCount}");
+		}
+
 	}
 }

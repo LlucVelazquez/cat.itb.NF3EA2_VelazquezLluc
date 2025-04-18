@@ -78,5 +78,16 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 			Console.ReadKey();
 			Console.Clear();
 		}
-    }
+		public static void DeleteRestaurantsInManhattan()
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("restaurants");
+
+			var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
+
+			var deleteResult = collection.DeleteMany(filter);
+
+			Console.WriteLine($"Nombre de restaurants eliminats: {deleteResult.DeletedCount}");
+		}
+	}
 }

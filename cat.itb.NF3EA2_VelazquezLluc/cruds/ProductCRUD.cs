@@ -117,10 +117,10 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 			var filter = Builders<BsonDocument>.Filter.And(
 				Builders<BsonDocument>.Filter.Gte("price", minPrice),
 				Builders<BsonDocument>.Filter.Lte("price", maxPrice)
-			)
+			);
 			var update = Builders<BsonDocument>.Update.Set("stock", newStock);
 			var updateResult = collection.UpdateMany(filter, update);
-			Console.WriteLine($"Nombre de documents actualitzats: {updateResult.ModifiedCount}")
+			Console.WriteLine($"Nombre de documents actualitzats: {updateResult.ModifiedCount}");
 			var updatedProducts = collection.Find(filter).ToList();
 			Console.WriteLine("Documents actualitzats:");
 			foreach (var product in updatedProducts)
@@ -130,6 +130,52 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 			Console.ReadKey();
 			Console.Clear();
 		}
+		public static void RemoveFirstCategory(string productName)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("products");
+
+			var filter = Builders<BsonDocument>.Filter.Eq("name", productName);
+
+			var productBefore = collection.Find(filter).FirstOrDefault();
+
+			Console.WriteLine("Abans de l'actualització:");
+			Console.WriteLine(productBefore.ToString());
+
+			var categories = productBefore["categories"].AsBsonArray;
+			if (categories.Count > 0)
+			{
+				categories.RemoveAt(0);
+
+				var update = Builders<BsonDocument>.Update.Set("categories", categories);
+				collection.UpdateOne(filter, update);
+
+				var productAfter = collection.Find(filter).FirstOrDefault();
+				Console.WriteLine("Després de l'actualització:");
+				Console.WriteLine(productAfter.ToString());
+			}
+			Console.ReadKey();
+			Console.Clear();
+		}
+		public static void DeleteProductByName(string productName)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("products");
+			var filter = Builders<BsonDocument>.Filter.Eq("name", productName);
+			var deleteResult = collection.DeleteOne(filter);
+			Console.WriteLine($"Producte eliminat: {deleteResult.ToString}");
+		}
+		public static void DeleteProductsByCategory(string category)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("products");
+			var filter = Builders<BsonDocument>.Filter.AnyEq("categories", category);
+			var deleteResult = collection.DeleteMany(filter);
+			Console.WriteLine($"Nombre de productes eliminats amb la categoria '{category}': {deleteResult.DeletedCount}");
+			Console.ReadKey();
+			Console.Clear();
+		}
+
 
 	}
 }

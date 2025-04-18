@@ -83,5 +83,38 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 			Console.ReadKey();
 			Console.Clear();
 		}
+		public static void DeleteBooksWithPageCountBetween(int minPages, int maxPages)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("books");
+			var filter = Builders<BsonDocument>.Filter.And(
+				Builders<BsonDocument>.Filter.Gte("pageCount", minPages),
+				Builders<BsonDocument>.Filter.Lte("pageCount", maxPages)
+			);
+			var deleteResult = collection.DeleteMany(filter);
+			Console.WriteLine($"Nombre de llibres eliminats: {deleteResult.DeletedCount}");
+		}
+		public static void RemoveLastCategoryByISBN(long isbn)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("books");
+			var filter = Builders<BsonDocument>.Filter.Eq("isbn", isbn);
+			var bookBefore = collection.Find(filter).FirstOrDefault();
+			Console.WriteLine("Abans de l'actualització:");
+			Console.WriteLine(bookBefore.ToString());
+			var categories = bookBefore["categories"].AsBsonArray;
+			if (categories.Count > 0)
+			{
+				categories.RemoveAt(categories.Count - 1);
+				var update = Builders<BsonDocument>.Update.Set("categories", categories);
+				collection.UpdateOne(filter, update);
+				var bookAfter = collection.Find(filter).FirstOrDefault();
+				Console.WriteLine("Després de l'actualització:");
+				Console.WriteLine(bookAfter.ToString());
+			}
+			Console.ReadKey();
+			Console.Clear();
+		}
+
 	}
 }

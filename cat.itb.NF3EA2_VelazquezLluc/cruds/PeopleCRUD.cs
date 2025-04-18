@@ -48,5 +48,15 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
                 Console.WriteLine(friend["name"]);
             }
         }
-    }
+		public static void RemoveTagsFromTeachers()
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("people");
+			var filter = Builders<BsonDocument>.Filter.Eq("profession", "teacher");
+			var update = Builders<BsonDocument>.Update.Unset("tags");
+			var updateResult = collection.UpdateMany(filter, update);
+			Console.WriteLine($"Nombre de professors actualitzats (camp 'tags' eliminat): {updateResult.ModifiedCount}");
+		}
+
+	}
 }

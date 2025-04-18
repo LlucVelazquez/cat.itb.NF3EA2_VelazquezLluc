@@ -26,7 +26,10 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 			//Exercice3b();
 			//Exercice3c();
 			//Exercice3d();
-			Exercice3e();
+			//Exercice3e();
+			//Exercice3f();
+			//Exercice3g();
+			Exercice4a();
 		}
 		public static void LoadAllCollections()
         {
@@ -90,7 +93,33 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 		{
 			ProductCRUD.UpdateStockForPriceRange(800,1000,60);
 		}
-
-
+		public static void Exercice3g()
+		{
+			CountryCRUD.AddCallingCodeToIceland(356);
+		}
+		public static void Exercice4a()
+		{
+			RestaurantCRUD.DeleteRestaurantsInManhattan();
+		}
+		public static void Exercice4b()
+		{
+			ProductCRUD.RemoveFirstCategory("iPhone 7");
+		}
+		public static void Exercice4c()
+		{
+			BookCRUD.DeleteBooksWithPageCountBetween(0, 100);
+		}
+		public static void Exercice4d()
+		{
+			ProductCRUD.DeleteProductByName("Apple TV");
+		}
+		public static void Exercice4e()
+		{
+			BookCRUD.RemoveLastCategoryByISBN(1933988177);
+		}
+		public static void Exercice4f()
+		{
+			ProductCRUD.DeleteProductsByCategory("phone");
+		}
 	}
 }
