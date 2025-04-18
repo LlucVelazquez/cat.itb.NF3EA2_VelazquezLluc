@@ -20,10 +20,12 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 			//Exercice2c();
 			//Exercice2d("11219");
 			//Exercice2e();
-            //Exercice2f();
-            //Exercice2g();
-        }
-        public static void LoadAllCollections()
+			//Exercice2f();
+			//Exercice2g();
+			//Exercice3a();
+			Exercice3b();
+		}
+		public static void LoadAllCollections()
         {
 			BookCRUD.LoadBooksCollection();
 			CountryCRUD.LoadCountriesCollection();
@@ -61,6 +63,15 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 		{
 			PeopleCRUD.ShowFriendsByPeople("Caroline Webster");
         }
+		public static void Exercice3a()
+		{
+			RestaurantCRUD.UpdateZipcode("Driggs Avenue", "10443");
+		}
+		public static void Exercice3b()
+		{
+			ProductCRUD.AddStockMinim(2000);
+		}
 
-    }
+
+	}
 }

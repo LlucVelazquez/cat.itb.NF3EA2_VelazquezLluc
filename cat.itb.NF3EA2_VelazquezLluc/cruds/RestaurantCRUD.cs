@@ -63,14 +63,20 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 			Console.ReadKey();
 			Console.Clear();
 		}
-		public static void UpdateZipcode(string name, string newZipCode)
+		public static void UpdateZipcode(string street, string newZipCode)
         {
             var database = MongoLocalConnection.GetDatabase("itb");
             var collection = database.GetCollection<BsonDocument>("restaurants");
-            var filter = Builders<BsonDocument>.Filter.Eq("name", name);
+            var filter = Builders<BsonDocument>.Filter.Eq("address.street", street);
             var update = Builders<BsonDocument>.Update.Set("address.zipcode", newZipCode);
-            collection.UpdateOne(filter, update);
-
-        }
+			var restaurantDoc = collection.Find(filter).First();
+			Console.WriteLine(restaurantDoc.ToString());
+			collection.UpdateOne(filter, update);
+			var updatedRestaurantDoc = collection.Find(filter).First();
+			var updatedZipCode = updatedRestaurantDoc.GetElement("address").Value["zipcode"];
+			Console.WriteLine($"Updated Zip Code: {updatedZipCode}");
+			Console.ReadKey();
+			Console.Clear();
+		}
     }
 }

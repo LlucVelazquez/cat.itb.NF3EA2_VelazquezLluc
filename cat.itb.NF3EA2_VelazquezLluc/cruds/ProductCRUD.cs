@@ -1,6 +1,7 @@
 ﻿using cat.itb.NF3EA2_VelazquezLluc.connections;
 using cat.itb.NF3EA2_VelazquezLluc.model;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,24 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
 					collection.InsertOne(document);
 				}
 			}
+		}
+		public static void AddStockMinim(int price)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("products");
+			var filter = Builders<BsonDocument>.Filter.Gt("price", price);
+			var update = Builders<BsonDocument>.Update.Set("stock", 20);
+			collection.UpdateMany(filter, update);
+			var products = collection.Find(filter).ToList();
+			int count = 0;
+			foreach (var product in products)
+			{
+				Console.WriteLine(product.ToString());
+				count++;
+			}
+			Console.WriteLine($"Productes actualitzats : {count}");
+			Console.ReadKey();
+			Console.Clear();
 		}
 	}
 }
