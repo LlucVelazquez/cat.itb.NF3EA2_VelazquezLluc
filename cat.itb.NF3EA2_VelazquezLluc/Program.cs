@@ -23,7 +23,10 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 			//Exercice2f();
 			//Exercice2g();
 			//Exercice3a();
-			Exercice3b();
+			//Exercice3b();
+			//Exercice3c();
+			//Exercice3d();
+			Exercice3e();
 		}
 		public static void LoadAllCollections()
         {
@@ -70,6 +73,22 @@ namespace cat.itb.NF3EA2_VelazquezLluc
 		public static void Exercice3b()
 		{
 			ProductCRUD.AddStockMinim(2000);
+		}
+		public static void Exercice3c()
+		{
+			BookCRUD.AddAuthorBook("Code Generation in Action", "Sam Watters");
+		}
+		public static void Exercice3d()
+		{
+			ProductCRUD.AddGamaField();
+		}
+		public static void Exercice3e()
+		{
+			ProductCRUD.UpdateProductCategory("MacBook Pro","notebook","ipad");
+		}
+		public static void Exercice3f()
+		{
+			ProductCRUD.UpdateStockForPriceRange(800,1000,60);
 		}
 
 

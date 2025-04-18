@@ -67,5 +67,21 @@ namespace cat.itb.NF3EA2_VelazquezLluc.cruds
             Console.ReadKey();
             Console.Clear();
         }
+		public static void AddAuthorBook(string title, string author)
+		{
+			var database = MongoLocalConnection.GetDatabase("itb");
+			var collection = database.GetCollection<BsonDocument>("books");
+			var filter = Builders<BsonDocument>.Filter.Eq("title", title);
+			var update = Builders<BsonDocument>.Update.AddToSet("authors", author);
+			var document = collection.Find(filter).ToList();
+			var authors = document[0].GetElement("authors");
+			Console.WriteLine($"Authors: {authors.ToString()}");
+			collection.UpdateMany(filter, update);
+			var documentUpdate = collection.Find(filter).ToList();
+			var authorsUpdate = documentUpdate[0].GetElement("authors");
+			Console.WriteLine($"Authors: {authorsUpdate.ToString()}");
+			Console.ReadKey();
+			Console.Clear();
+		}
 	}
 }
